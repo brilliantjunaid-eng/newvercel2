@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pact — Begin Before You're Ready</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=Outfit:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:            #f8f3ec;
+      --text:          #2d2a29;
+      --muted:         #6f6761;
+      --border:        rgba(92, 78, 68, 0.14);
+      --border-strong: rgba(92, 78, 68, 0.26);
+      --teal:          #355c56;
+      --teal-deep:     #24413d;
+      --teal-soft:     #dce9e2;
+      --rose:          #d58d7b;
+      --rose-soft:     #f4dfd7;
+      --sky:           #dce8f3;
+      --amber:         #f1dfbd;
+      --amber-deep:    #b8894a;
+      --surface:       rgba(255, 255, 255, 0.88);
+      --shadow-sm:     0 4px 14px rgba(62, 51, 43, 0.07);
+      --shadow-md:     0 14px 36px rgba(62, 51, 43, 0.10);
+      --shadow-lg:     0 24px 56px rgba(62, 51, 43, 0.13);
+      --serif:         'Fraunces', Georgia, serif;
+      --script:        'Cormorant Garamond', Georgia, serif;
+      --sans:          'Outfit', system-ui, sans-serif;
+      --r-sm:   10px;
+      --r-md:   18px;
+      --r-lg:   26px;
+      --r-pill: 999px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.018;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── background image helper ── */
+    .section-wrap { position: relative; overflow: hidden; }
+
+    .bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.07;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .bg-img-light { opacity: 0.09; mix-blend-mode: multiply; }
+    .bg-img-dark  { opacity: 0.12; mix-blend-mode: luminosity; filter: grayscale(30%); }
+
+    .section-wrap > .container,
+    .section-wrap > .hero { position: relative; z-index: 1; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.25rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(248, 243, 236, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .nav-logo::before {
+      content: '';
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--teal));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.25rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fffdf8;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+      padding: 0.55rem 1.4rem;
+      border-radius: var(--r-pill);
+      box-shadow: 0 6px 20px rgba(53, 92, 86, 0.25);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 28px rgba(53, 92, 86, 0.32);
+    }
+
+    /* HERO — reduced top space */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* ↓ was 9rem top — now 5.5rem so content starts higher */
+      padding: 5.5rem 3rem 3.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: var(--teal-soft);
+      border: 1px solid rgba(53, 92, 86, 0.18);
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--r-pill);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(3.2rem, 7vw, 6.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      max-width: 900px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--teal);
+    }
+
+    .hero-sub {
+      margin-top: 1.75rem;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s forwards;
+    }
+
+    .hero-actions {
+      margin-top: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s forwards;
+    }
+
+    /* hero trust chips */
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.75rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.95s forwards;
+    }
+
+    .hero-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--muted);
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.85rem;
+      border-radius: var(--r-pill);
+    }
+
+    .hero-meta-item::before {
+      content: '✓';
+      font-size: 0.7rem;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    /* CAMUS QUOTE — enlarged & more presence */
+    .hero-quote {
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--script);
+      font-style: italic;
+      /* ↓ was 1.2rem — now 2.2rem, much more presence */
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.9s 1.1s forwards;
+      max-width: 680px;
+    }
+
+    .hero-quote cite {
+      display: block;
+      font-style: normal;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--teal);
+      opacity: 0.7;
+      margin-top: 0.85rem;
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+      color: #fffdf8;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.95rem 2rem;
+      border-radius: var(--r-pill);
+      box-shadow: 0 12px 32px rgba(53, 92, 86, 0.28);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(53, 92, 86, 0.35);
+    }
+
+    .btn-ghost {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.25s;
+    }
+
+    .btn-ghost:hover { color: var(--text); }
+    .btn-ghost::after { content: '→'; }
+
+    /* SECTION BASE */
+    section { padding: 7rem 3rem; }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .label-teal  { color: var(--teal);       background: var(--teal-soft); border: 1px solid rgba(53,92,86,.18);    padding: 0.3rem 0.85rem; border-radius: var(--r-pill); }
+    .label-rose  { color: #a85a47;            background: var(--rose-soft); border: 1px solid rgba(213,141,123,.25); padding: 0.3rem 0.85rem; border-radius: var(--r-pill); }
+    .label-amber { color: var(--amber-deep);  background: var(--amber);     border: 1px solid rgba(184,137,74,.2);  padding: 0.3rem 0.85rem; border-radius: var(--r-pill); }
+    .label-sky   { color: #3a6a96;            background: var(--sky);       border: 1px solid rgba(58,106,150,.18); padding: 0.3rem 0.85rem; border-radius: var(--r-pill); }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      max-width: 700px;
+    }
+
+    .section-title em { font-style: italic; font-weight: 300; color: var(--teal); }
+
+    .section-body {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--muted);
+      max-width: 540px;
+      margin-top: 1.5rem;
+      line-height: 1.85;
+    }
+
+    /* DIVIDER */
+    .divider { width: 100%; height: 1px; background: var(--border); }
+
+    /* PROBLEM — rose blush */
+    .problem {
+      background:
+        radial-gradient(circle at top right, rgba(220,232,243,0.4), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(213,141,123,0.15), transparent 35%),
+        #fdf6f3;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 4rem;
+    }
+
+    .problem-stat { display: flex; flex-direction: column; gap: 2rem; }
+
+    .stat-item { border-left: 3px solid var(--rose); padding-left: 1.75rem; }
+
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 3.8rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--rose);
+      line-height: 1;
+    }
+
+    .stat-label { font-size: 0.88rem; color: var(--muted); margin-top: 0.35rem; }
+
+    .problem-text { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .problem-text p { font-size: 1.05rem; color: var(--muted); line-height: 1.85; }
+    .problem-text p strong { color: var(--text); font-weight: 600; }
+
+    /* HOOK DEMO — sage green */
+    .hook-section {
+      background:
+        radial-gradient(circle at top left, rgba(220,233,226,0.6), transparent 40%),
+        #f2f8f5;
+    }
+
+    .hook-display { margin-top: 3.5rem; position: relative; }
+
+    .hook-card {
+      border: 1px solid rgba(53,92,86,0.15);
+      border-radius: var(--r-lg);
+      padding: 3rem;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-md);
+      max-width: 700px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hook-card::before {
+      content: '"';
+      font-family: var(--script);
+      font-size: 10rem;
+      color: var(--teal);
+      opacity: 0.08;
+      position: absolute;
+      top: -1.5rem; left: 1.5rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .hook-subject {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.5rem;
+    }
+
+    .hook-text {
+      font-family: var(--script);
+      font-size: 1.55rem;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .hook-nav { display: flex; gap: 0.75rem; margin-top: 2rem; }
+
+    .hook-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--border);
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      border: none; outline: none;
+    }
+
+    .hook-dot.active { background: var(--teal); transform: scale(1.3); }
+
+    .hook-cta { margin-top: 1.75rem; }
+
+    .hook-aside { margin-top: 1.5rem; max-width: 500px; }
+    .hook-aside p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; }
+
+    /* THE LOOP */
+    .loop-steps { margin-top: 4rem; display: flex; flex-direction: column; }
+
+    .step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 2rem;
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--border);
+      align-items: start;
+      transition: all 0.3s;
+    }
+
+    .step:last-child { border-bottom: 1px solid var(--border); }
+
+    .step-number {
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: rgba(92,78,68,0.15);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      transition: color 0.3s;
+    }
+
+    .step:hover .step-number { color: var(--teal); }
+
+    .step-title {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .step-body {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 560px;
+    }
+
+    .step-tag {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber-deep);
+      background: var(--amber);
+      border: 1px solid rgba(184,137,74,0.2);
+      border-radius: var(--r-pill);
+      padding: 0.2rem 0.7rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--teal);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+
+    .step-link::after { content: '→'; }
+    .step-link:hover { gap: 0.55rem; }
+
+    /* THERMOSTAT — sky blue */
+    .thermostat-section {
+      background:
+        radial-gradient(circle at top right, rgba(220,232,243,0.65), transparent 40%),
+        #f0f6fc;
+    }
+
+    .thermostat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 4rem;
+    }
+
+    .thermo-card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .thermo-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-strong);
+    }
+
+    .thermo-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+    }
+
+    .thermo-low::before  { background: var(--rose); }
+    .thermo-mid::before  { background: var(--amber-deep); }
+    .thermo-high::before { background: var(--teal); }
+
+    .thermo-range {
+      font-family: var(--serif);
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .thermo-low .thermo-range  { color: var(--rose); }
+    .thermo-mid .thermo-range  { color: var(--amber-deep); }
+    .thermo-high .thermo-range { color: var(--teal); }
+
+    .thermo-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .thermo-response { font-size: 0.95rem; color: var(--muted); line-height: 1.75; }
+    .thermo-response strong { color: var(--text); font-weight: 600; }
+
+    /* GRADUATION — amber warm */
+    .graduation-section {
+      background:
+        radial-gradient(circle at bottom right, rgba(241,223,189,0.5), transparent 38%),
+        #fdf9f1;
+    }
+
+    .grad-arc {
+      margin-top: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .grad-phases { display: flex; flex-direction: column; }
+
+    .phase {
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .phase:last-child { border-bottom: 1px solid var(--border); }
+
+    .phase-time {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber-deep);
+      padding-top: 0.2rem;
+    }
+
+    .phase-title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .phase-body { font-size: 0.9rem; color: var(--muted); line-height: 1.75; }
+
+    .grad-philosophy { position: sticky; top: 6rem; }
+
+    .philosophy-card {
+      border: 1px solid rgba(184,137,74,0.25);
+      border-radius: var(--r-lg);
+      padding: 2.75rem;
+      background: linear-gradient(160deg, rgba(255,251,245,0.98), rgba(255,246,232,0.92));
+      box-shadow: var(--shadow-md);
+    }
+
+    .philosophy-card .card-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber-deep);
+      opacity: 0.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .philosophy-card blockquote {
+      font-family: var(--script);
+      font-size: 1.35rem;
+      font-weight: 400;
+      line-height: 1.65;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .philosophy-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.75; }
+
+    /* SCIENCE — deep teal inverted */
+    .science-section {
+      background: linear-gradient(145deg, #2a4a45 0%, #1e3632 60%, #192e2a 100%);
+      color: #e8f0ee;
+    }
+
+    .science-section .section-label.label-teal {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      color: #a8c9c4;
+    }
+
+    .science-section .section-title { color: #f0f7f5; }
+    .science-section .section-title em { color: #8ecfc8; }
+    .science-section .section-body { color: rgba(220,233,226,0.75); }
+
+    .science-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .science-item {
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-md);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(8px);
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .science-item:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+    .sci-source {
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8ecfc8;
+      margin-bottom: 1rem;
+    }
+
+    .sci-title {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #f0f7f5;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .sci-body { font-size: 0.9rem; color: rgba(220,233,226,0.7); line-height: 1.8; }
+
+    /* NOT THIS */
+    .not-section { background: var(--bg); }
+
+    .not-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 4rem;
+    }
+
+    .not-item {
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 2rem 2.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .not-item:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+
+    .not-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: line-through;
+      text-decoration-color: var(--rose);
+      text-decoration-thickness: 2px;
+    }
+
+    .not-reason { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
+
+    /* CTA — deep teal */
+    .cta-section {
+      background: linear-gradient(145deg, #2d5250 0%, #24413d 50%, #1a3330 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -40%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(213,141,123,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .cta-section .section-label { justify-content: center; }
+    .cta-section .section-label::before { display: none; }
+    .cta-section .label-teal {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      color: #a8c9c4;
+    }
+
+    .cta-title {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: #f0f7f5;
+      max-width: 680px;
+      margin: 0 auto 1.75rem;
+    }
+
+    .cta-title em { font-style: italic; font-weight: 300; color: #8ecfc8; }
+
+    .cta-sub {
+      font-size: 1.05rem;
+      color: rgba(220,233,226,0.72);
+      max-width: 420px;
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+    }
+
+    /* CTA buttons — side-by-side on dark bg */
+    .cta-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cta-section .btn-primary {
+      background: linear-gradient(135deg, var(--rose) 0%, #c07060 100%);
+      box-shadow: 0 10px 30px rgba(213,141,123,0.35);
+    }
+
+    .cta-section .btn-primary:hover {
+      box-shadow: 0 16px 38px rgba(213,141,123,0.45);
+    }
+
+    .cta-section .btn-ghost { color: rgba(220,233,226,0.65); }
+    .cta-section .btn-ghost:hover { color: #f0f7f5; }
+
+    .cta-note { font-size: 0.74rem; color: rgba(220,233,226,0.4); margin-top: 2rem; letter-spacing: 0.05em; }
+
+    /* FOOTER */
+    footer {
+      padding: 2.75rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+    }
+
+    .footer-logo { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--muted); text-decoration: none; }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .footer-links a:hover { opacity: 1; }
+
+    .footer-line { font-size: 0.74rem; letter-spacing: 0.05em; color: var(--muted); opacity: 0.45; max-width: 260px; text-align: right; line-height: 1.5; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 1.5rem; }
+      .hero { padding: 5rem 1.5rem 3rem; }
+      .problem-grid    { grid-template-columns: 1fr; gap: 3rem; }
+      .thermostat-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .science-grid    { grid-template-columns: 1fr; gap: 1.25rem; }
+      .not-grid        { grid-template-columns: 1fr; }
+      .grad-arc        { grid-template-columns: 1fr; }
+      .grad-philosophy { position: static; }
+      .step            { grid-template-columns: 50px 1fr; gap: 1.25rem; }
+      footer           { flex-direction: column; gap: 1.25rem; text-align: center; }
+      .footer-links    { justify-content: center; }
+      .footer-line     { text-align: center; max-width: 100%; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-headline { font-size: 2.8rem; }
+      .cta-buttons   { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">Pact</a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#science">The science</a></li>
+      <li><a href="#philosophy">Philosophy</a></li>
+      <li><a href="/hook">Curiosity warm-up</a></li>
+    </ul>
+    <a href="pact.html" class="nav-cta">Begin now</a>
+  </nav>
+
+  <!-- HERO — with subtle study-desk background image -->
+  <section class="section-wrap" style="padding:0;">
+    <img
+      class="bg-img bg-img-light"
+      src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1400&q=80"
+      alt=""
+      aria-hidden="true"
+    />
+    <div class="hero">
+      <div class="hero-eyebrow">A curiosity-first study companion</div>
+      <h1 class="hero-headline">
+        The hardest moment<br />is the one <em>before</em><br />you begin.
+      </h1>
+      <p class="hero-sub">
+        Pact is for students who sit down to study and still cannot make themselves start. It uses curiosity — not guilt, not gamification — to make your brain want to begin before the effort even arrives.
+      </p>
+      <div class="hero-actions">
+        <a href="pact.html" class="btn-primary">Start your first session</a>
+        <a href="pact.html" class="btn-ghost">See how it works</a>
+      </div>
+      <div class="hero-meta">
+        <span class="hero-meta-item">Free, always</span>
+        <span class="hero-meta-item">No account friction</span>
+        <span class="hero-meta-item">Private in your browser</span>
+      </div>
+      <div class="hero-quote">
+        "One must imagine Sisyphus happy."
+        <cite>— Albert Camus</cite>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- THE PROBLEM — rose blush + phone/distraction image -->
+  <section id="the-problem" class="problem section-wrap">
+    <img
+      class="bg-img bg-img-light"
+      src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80"
+      alt=""
+      aria-hidden="true"
+      style="object-position: right center;"
+    />
+    <div class="container">
+      <div class="section-label label-rose">The problem</div>
+      <h2 class="section-title">
+        Most apps reward you<br />for finishing. <em>No one</em><br />helps you start.
+      </h2>
+
+      <div class="problem-grid reveal">
+        <div class="problem-stat">
+          <div class="stat-item">
+            <div class="stat-number">73%</div>
+            <div class="stat-label">of students report scrolling before study sessions — blunting dopamine before they even open a book.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">19 min</div>
+            <div class="stat-label">average time spent deciding to start studying, before any actual work begins.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">0</div>
+            <div class="stat-label">productivity apps designed to reduce your reliance on them over time. Until Pact.</div>
+          </div>
+        </div>
+
+        <div class="problem-text">
+          <p>The phone isn't the enemy. <strong>Depleted dopamine is.</strong> When you scroll for thirty minutes before opening your textbook, you've already spent the neurochemical currency your brain needs to find studying rewarding.</p>
+          <p>Every other productivity app assumes you can already begin. They give you timers, streaks, and checklists — all useful once you're working. <strong>They have nothing to say to the student staring at the ceiling.</strong></p>
+          <p>Pact works at the moment before work. It uses curiosity — a scientifically documented precursor to dopamine — to create the urge to study before the session even begins.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CURIOSITY HOOK — sage + open book image -->
+  <section class="hook-section section-wrap" id="how-it-works">
+    <img
+      class="bg-img bg-img-light"
+      src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1200&q=80"
+      alt=""
+      aria-hidden="true"
+      style="opacity:0.05;"
+    />
+    <div class="container">
+      <div class="section-label label-teal">The curiosity warm-up</div>
+      <h2 class="section-title reveal">
+        You tell us what you're<br />studying. We show you<br />why it's <em>extraordinary.</em>
+      </h2>
+      <p class="section-body reveal">Before your session begins, Pact shows you one carefully crafted sentence about your topic. Not a summary. Not a fun fact. The most surprising destination of that subject — glimpsed from the doorway before you walk in.</p>
+
+      <div class="hook-display reveal">
+        <div class="hook-card" id="hookCard">
+          <div class="hook-subject" id="hookSubject">Mathematics — Complex Numbers</div>
+          <div class="hook-text" id="hookText">The equation e<sup>iπ</sup> + 1 = 0 connects five of the most fundamental constants in all of mathematics in a single line — and you're about to learn why that's even possible.</div>
+        </div>
+        <div class="hook-nav" id="hookNav"></div>
+        <div class="hook-cta">
+          <a href="/hook" class="btn-ghost">Try the full curiosity warm-up</a>
+        </div>
+        <div class="hook-aside">
+          <p>The hook doesn't explain itself. It creates <em>anticipatory dopamine</em> — the brain enters a state of wanting to know more before the work even begins. The curiosity is the entry point.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- THE SESSION ARC -->
+  <section id="session-arc">
+    <div class="container">
+      <div class="section-label label-amber">The session arc</div>
+      <h2 class="section-title reveal">
+        Every session follows<br />a <em>deliberate</em> shape.
+      </h2>
+
+      <div class="loop-steps">
+        <div class="step reveal">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <div class="step-tag">The Pact</div>
+            <div class="step-title">Set the baseline</div>
+            <div class="step-body">Before anything else, you make a self-promise. What will you avoid this session — no music, no phone, no layering of high-stimulation activities. This is a ritual. It primes the brain consciously before work begins.</div>
+            <a href="/login" class="step-link">Begin with the pact</a>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <div class="step-tag">Curiosity Hook</div>
+            <div class="step-title">Receive the hook</div>
+            <div class="step-body">Enter your topic. Pact responds with a single sentence that makes the subject surprising. Not an explanation — an invitation. Your brain begins to want to know, before effort is even required.</div>
+            <a href="/hook" class="step-link">Open the curiosity warm-up</a>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <div class="step-tag">Study Space</div>
+            <div class="step-title">Choose your topic and sprint</div>
+            <div class="step-body">Name your subject, choose a sprint length, and pick the first reachable step. No complex hierarchy — just enough structure to give the session a shape. If starting feels heavy today, begin with fifteen minutes.</div>
+            <a href="/app" class="step-link">Open the study space</a>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <div class="step-tag">Dopamine Thermostat</div>
+            <div class="step-title">Adaptive check-ins during the sprint</div>
+            <div class="step-body">Every 25 minutes, a single question: how are you feeling right now, 1–10? One tap. Three seconds. Based on your answer, Pact adapts — more stimulation when you're low, silence when you're already in flow. It never adds fuel to a fire that's already burning.</div>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-number">05</div>
+          <div class="step-content">
+            <div class="step-tag">Retrieval Challenge</div>
+            <div class="step-title">One hard question at the end</div>
+            <div class="step-body">At the close of your session, Pact asks a genuinely difficult question about what you just studied. Not recall — genuine retrieval. The difficulty is the point: Robert Bjork's research shows that the harder the retrieval effort, the larger the dopamine response when you succeed.</div>
+            <a href="/session" class="step-link">Start a focus sprint</a>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-number">06</div>
+          <div class="step-content">
+            <div class="step-tag">Session Reflection</div>
+            <div class="step-title">Close the curiosity loop</div>
+            <div class="step-body">One final question: "What surprised you today?" This closes the curiosity loop your brain opened at the start, reinforces memory encoding, and ends the session on discovery rather than exhaustion.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- DOPAMINE THERMOSTAT — sky blue -->
+  <section class="thermostat-section">
+    <div class="container">
+      <div class="section-label label-sky">The dopamine thermostat</div>
+      <h2 class="section-title reveal">
+        Stimulation calibrated<br />to your <em>actual state</em> —<br />not a fixed schedule.
+      </h2>
+      <p class="section-body reveal">Most apps layer rewards on top of whatever state you're in. Pact treats your neurochemical state like a thermostat — it only acts when the temperature moves out of range.</p>
+
+      <div class="thermostat-grid reveal">
+        <div class="thermo-card thermo-low">
+          <div class="thermo-range">1–4</div>
+          <div class="thermo-label">Low state</div>
+          <div class="thermo-response">
+            <strong>You're struggling to engage.</strong> Pact offers a small stimulation — a new curiosity hook, a surprising connection, or a quiet reframe of what you're doing and why. Nothing loud. Just enough to shift the gear.
+          </div>
+        </div>
+        <div class="thermo-card thermo-mid">
+          <div class="thermo-range">5–6</div>
+          <div class="thermo-label">Moderate state</div>
+          <div class="thermo-response">
+            <strong>Present but not quite locked in.</strong> A mild nudge — a reframe of the task ahead, or a small question that re-engages curiosity without pulling you out of the session.
+          </div>
+        </div>
+        <div class="thermo-card thermo-high">
+          <div class="thermo-range">7–10</div>
+          <div class="thermo-label">Flow state</div>
+          <div class="thermo-response">
+            <strong>You're in it. Pact steps back.</strong> A calm acknowledgement — "you're in a good state, keep going" — and then silence. Adding stimulation to an already high state leads to crashes. The app knows when to disappear.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- GRADUATION ARC — amber warm -->
+  <section id="philosophy" class="graduation-section section-wrap">
+    <img
+      class="bg-img"
+      src="https://images.unsplash.com/photo-1499244571948-7ccddb3583f1?auto=format&fit=crop&w=1200&q=80"
+      alt=""
+      aria-hidden="true"
+      style="opacity:0.055; object-position: left center;"
+    />
+    <div class="container">
+      <div class="section-label label-amber">The graduation arc</div>
+      <h2 class="section-title reveal">
+        The only app designed<br />to make itself <em>unnecessary.</em>
+      </h2>
+      <p class="section-body reveal">Every other productivity tool wants your daily retention. Pact has a different success metric: the moment you no longer need it.</p>
+
+      <div class="grad-arc">
+        <div class="grad-phases reveal">
+          <div class="phase">
+            <div class="phase-time">Week 1–2</div>
+            <div>
+              <div class="phase-title">Entry ramp</div>
+              <div class="phase-body">The app meets you where you are — with a depleted dopamine baseline from doomscrolling — and competes with your phone using mild external rewards. More hooks, more check-ins, more visible encouragement. It earns your attention before it asks for your effort.</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-time">Week 2–4</div>
+            <div>
+              <div class="phase-title">Quiet pullback</div>
+              <div class="phase-body">Based on your check-in data, Pact begins reducing stimulation when it detects your state during studying is consistently high without having just received a reward. That signal means intrinsic motivation is beginning to grow. The pullback follows your data, not a fixed schedule.</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-time">Month 2+</div>
+            <div>
+              <div class="phase-title">Quiet companion</div>
+              <div class="phase-body">Less stimulation, more trust. The structure remains but the scaffolding is lighter. You begin generating your own curiosity naturally — the app is no longer providing it, only creating space for it.</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-time">Eventually</div>
+            <div>
+              <div class="phase-title">Graduation</div>
+              <div class="phase-body">Pact suggests you try a session without it. <em>"You've had 7 strong sessions this week. Try one tomorrow without opening us first. See how it feels."</em> Students who reach this stage are the success metric — not retention numbers.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grad-philosophy reveal">
+          <div class="philosophy-card">
+            <div class="card-label">The design principle</div>
+            <blockquote>"We are explicitly designing toward our own obsolescence. Every feature asks: does this build the student's capacity, or replace it?"</blockquote>
+            <p>This is the core philosophical difference from every competitor. Habit-forming apps are built to be irreplaceable. Pact is built to be outgrown. It believes the struggle and effort of learning is itself the reward — and its entire design is oriented around helping the student feel that truth, not just be told it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SCIENCE — deep teal + neuron image -->
+  <section class="science-section section-wrap" id="science">
+    <img
+      class="bg-img bg-img-dark"
+      src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=1400&q=80"
+      alt=""
+      aria-hidden="true"
+      style="opacity:0.13; mix-blend-mode:overlay;"
+    />
+    <div class="container">
+      <div class="section-label label-teal">The neuroscience</div>
+      <h2 class="section-title reveal">
+        The intelligence is<br />under the hood.
+      </h2>
+
+      <div class="science-grid reveal">
+        <div class="science-item">
+          <div class="sci-source">Gruber & Ranganath, 2014</div>
+          <div class="sci-title">Curiosity activates the same dopamine circuits as external reward</div>
+          <div class="sci-body">Genuine curiosity — not gamification — produces the same anticipatory dopamine as receiving a prize. Pact uses this to create motivation before effort, not after. The curiosity warm-up isn't decoration — it's neurochemistry.</div>
+        </div>
+        <div class="science-item">
+          <div class="sci-source">Huberman Lab</div>
+          <div class="sci-title">Attaching reward to effort rather than outcome</div>
+          <div class="sci-body">The Pact, the session arc, and the thermostat are all built on this principle. The app trains the brain to find the act of studying rewarding — not the grade at the end — by shaping how each session begins and closes.</div>
+        </div>
+        <div class="science-item">
+          <div class="sci-source">Robert Bjork — Desirable Difficulties</div>
+          <div class="sci-title">Harder retrieval produces larger rewards</div>
+          <div class="sci-body">The end-of-session retrieval question is deliberately difficult. Bjork's research shows that the effort required to retrieve knowledge amplifies the dopamine response when retrieval succeeds. Finishing should feel genuinely earned.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- NOT THIS -->
+  <section class="not-section">
+    <div class="container">
+      <div class="section-label label-rose">What Pact is not</div>
+      <h2 class="section-title reveal">
+        Every category this<br />isn't — and <em>why.</em>
+      </h2>
+
+      <div class="not-grid reveal">
+        <div class="not-item">
+          <div class="not-label">Khan Academy / Learning platforms</div>
+          <div class="not-reason">Pact does not teach content. It teaches the brain to want to learn — and then gets out of the way of whatever learning tool the student uses.</div>
+        </div>
+        <div class="not-item">
+          <div class="not-label">Notion / Note-taking tools</div>
+          <div class="not-reason">Pact does not store information passively. The architecture is about session state, not knowledge management.</div>
+        </div>
+        <div class="not-item">
+          <div class="not-label">Habitica / RPG gamification</div>
+          <div class="not-reason">No fantasy mechanics, no skins, no XP arms race. The intelligence is invisible. The student should feel the app understands them without being able to articulate why.</div>
+        </div>
+        <div class="not-item">
+          <div class="not-label">Forest / Guilt-based focus apps</div>
+          <div class="not-reason">Guilt and visual metaphor are not dopamine. Watching a tree die is not the same as genuinely wanting to study. Pact competes at the neurochemical level, not the aesthetic one.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="section-label label-teal">Begin now</div>
+      <h2 class="cta-title reveal">
+        The first five minutes<br />are always the <em>hardest.</em>
+      </h2>
+      <p class="cta-sub reveal">Pact is free. No account, no setup — just enter your name and your session begins. The whole thing takes thirty seconds to start.</p>
+
+      <div class="cta-buttons reveal">
+        <a href="pact.html" class="btn-primary">Start your first session</a>
+        <a href="/hook" class="btn-ghost">Try the curiosity warm-up first</a>
+      </div>
+      <p class="cta-note reveal">Free, always. Private in your browser. No tracking.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="/" class="footer-logo">Pact</a>
+    <ul class="footer-links">
+      <li><a href="/login">Begin</a></li>
+      <li><a href="/hook">Warm-up</a></li>
+      <li><a href="/app">Study space</a></li>
+      <li><a href="/session">Focus sprint</a></li>
+    </ul>
+    <div class="footer-line">Built for students who open Instagram instead of their textbook.</div>
+  </footer>
+
+  <script>
+    // Hook rotation
+    const hooks = [
+      { subject: "Mathematics — Complex Numbers", text: "The equation e<sup>iπ</sup> + 1 = 0 connects five of the most fundamental constants in all of mathematics in a single line — and you're about to learn why that's even possible." },
+      { subject: "History — The French Revolution", text: "The revolution that invented the concept of 'left' and 'right' in politics began not with a battle, but with a seating arrangement in a room that no longer exists." },
+      { subject: "Biology — DNA Replication", text: "Every time one of your cells divides, it copies three billion letters of code in under an hour — with an error rate lower than one in a billion. Your body has a spell-checker more reliable than any software ever written." },
+      { subject: "Physics — Quantum Mechanics", text: "An electron passes through two slits simultaneously — not as a metaphor, and not because we missed something, but because that is simply what electrons do. Physics hasn't explained this. It's just confirmed it keeps happening." },
+      { subject: "Literature — Shakespeare", text: "Shakespeare invented over 1,700 words still in everyday use — including 'bedroom', 'lonely', and 'eyeball'. Before him, English had no word for those things." },
+      { subject: "Economics — Supply & Demand", text: "During the 1800s California Gold Rush, the people who got rich weren't the gold miners. They were the people selling shovels. Supply and demand has been hiding in plain sight ever since." }
+    ];
+
+    let currentHook = 0;
+
+    function buildDots() {
+      const nav = document.getElementById('hookNav');
+      nav.innerHTML = '';
+      hooks.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'hook-dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => setHook(i));
+        nav.appendChild(dot);
+      });
+    }
+
+    function setHook(i) {
+      currentHook = i;
+      const card = document.getElementById('hookCard');
+      card.style.transition = 'opacity 0.2s, transform 0.2s';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(8px)';
+      setTimeout(() => {
+        document.getElementById('hookSubject').textContent = hooks[i].subject;
+        document.getElementById('hookText').innerHTML = hooks[i].text;
+        card.style.transition = 'opacity 0.4s, transform 0.4s';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+        document.querySelectorAll('.hook-dot').forEach((d, j) => d.classList.toggle('active', j === i));
+      }, 220);
+    }
+
+    buildDots();
+    setInterval(() => setHook((currentHook + 1) % hooks.length), 5000);
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pact — Begin gently</title>
+  <meta name="description" content="A curiosity-first student study companion for starting gently and staying with the work.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="./assets/pact-mark.svg">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: HOME                                  -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-home" class="page-view">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand-mark" href="index.html">Pact</a>
+      <nav class="site-nav">
+        <a href="login.html">Login</a>
+        <a href="reentry.html">Quick Start</a>
+        <a href="app.html">Study Space</a>
+        <a class="nav-button" id="homePrimaryCta" href="login.html">Begin</a>
+      </nav>
+    </header>
+
+    <main class="home-hero-grid">
+      <section class="hero-card hero-card-warm reveal">
+        <p class="panel-kicker">A curiosity-first study companion</p>
+        <h1>Make the first five minutes feel possible.</h1>
+        <p class="hero-copy">
+          Pact is for students who sit down to study and still cannot begin. Instead of rewarding work only after it is finished,
+          the app creates a softer runway into effort itself.
+        </p>
+        <div class="button-row">
+          <a class="primary-button" id="homeHeroCta" href="login.html">Start a 15-minute reset</a>
+          <a class="secondary-button" href="hook.html">See how the warm-up works</a>
+        </div>
+        <div class="trust-row">
+          <span class="trust-chip">Private in this browser</span>
+          <span class="trust-chip">No account friction</span>
+          <span class="trust-chip">Built for daily use</span>
+        </div>
+      </section>
+
+      <aside class="home-side reveal">
+        <section class="panel tone-panel">
+          <p class="panel-kicker">What this is for</p>
+          <h2>This is for the moment when you want to study, but still cannot make yourself begin.</h2>
+          <p>Not because you do not care. Not because you are incapable. Usually because the first few minutes feel heavier than they should.</p>
+        </section>
+        <section class="panel mini-steps">
+          <p class="panel-kicker">What happens first</p>
+          <div class="step-list">
+            <div class="step-item">
+              <span>01</span>
+              <p>Make one quiet promise about how this block will go.</p>
+            </div>
+            <div class="step-item">
+              <span>02</span>
+              <p>Give the topic enough meaning that your mind stops pushing it away.</p>
+            </div>
+            <div class="step-item">
+              <span>03</span>
+              <p>Protect one short focus sprint instead of bargaining with the whole syllabus.</p>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <section class="feature-grid reveal">
+      <article class="panel feature-panel accent-sage">
+        <p class="panel-kicker">When starting feels heavy</p>
+        <h2>The first fifteen minutes are usually the hardest.</h2>
+        <p>You are not lazy for struggling there. Most students lose the session before the real work even begins.</p>
+      </article>
+      <article class="panel feature-panel accent-rose">
+        <p class="panel-kicker">What procrastination feels like</p>
+        <h2>You sit down, open the book, and still cannot enter.</h2>
+        <p>The problem is rarely effort itself. It is that strange moment before effort, when everything else feels easier than beginning.</p>
+      </article>
+      <article class="panel feature-panel accent-sky">
+        <p class="panel-kicker">What this app tries to do</p>
+        <h2>Make your mind lean forward before the work starts.</h2>
+        <p>Not with guilt. Not with loud gamification. Just enough curiosity and calm structure to help you cross the threshold.</p>
+      </article>
+    </section>
+
+    <section class="panel page-map reveal">
+      <p class="panel-kicker">What happens next</p>
+      <div class="focus-order">
+        <div class="focus-step">
+          <strong>1. Start with one small promise</strong>
+          <span>Decide what this block is and what it is not. That lowers the chaos before the work starts.</span>
+        </div>
+        <div class="focus-step">
+          <strong>2. Name the topic and the first reachable step</strong>
+          <span>The clearer the opening move is, the less room procrastination has to bargain with you.</span>
+        </div>
+        <div class="focus-step">
+          <strong>3. Let curiosity do some of the lifting</strong>
+          <span>Before the chapter feels difficult, let it feel interesting enough to approach.</span>
+        </div>
+        <div class="focus-step">
+          <strong>4. Protect one short sprint</strong>
+          <span>You do not need to win the whole day. You only need to stay with the next honest stretch of attention.</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: LOGIN                                 -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-login" class="page-view">
+  <main class="auth-layout auth-layout-warm">
+    <a class="brand-mark centered-mark" href="index.html">Pact</a>
+    <section class="auth-card reveal">
+      <p class="panel-kicker">Name-only entry</p>
+      <h1>What should we call you?</h1>
+      <p class="auth-copy">
+        This saves your name in this browser only. Just enough to make the experience feel personal without adding friction.
+      </p>
+      <form id="loginForm" class="auth-form">
+        <label class="field-label" for="nameInput">Name</label>
+        <input id="nameInput" name="name" type="text" maxlength="30" placeholder="Aarav" autocomplete="name" required>
+        <button class="primary-button full-width" type="submit">Continue to your study space</button>
+      </form>
+
+      <div id="returningUserCard" class="returning-user" hidden>
+        <p class="field-label">Already saved here</p>
+        <p id="returningUserText" class="returning-name"></p>
+        <div class="button-row narrow">
+          <a class="secondary-button" href="reentry.html">Continue</a>
+          <button id="resetUserButton" class="ghost-button" type="button">Use a different name</button>
+        </div>
+      </div>
+
+      <p class="hand-note hand-note-center">the quieter the entry, the easier it is to begin</p>
+    </section>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: APP (dashboard)                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-app" class="page-view">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand-mark" href="index.html">Pact</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="app.html">Study Space</a>
+        <a href="planner.html">Planner</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="reentry.html">Quick Start</a>
+        <a href="hook.html">Warm-up</a>
+        <a href="session.html">Focus Sprint</a>
+      </nav>
+    </header>
+
+    <main class="dashboard-layout">
+      <section class="dashboard-main">
+        <div id="appNotice" class="notice-banner" hidden></div>
+
+        <section class="panel intro-panel reveal soft-gradient-card">
+          <p class="panel-kicker">Start here</p>
+          <h1 id="appGreeting">One clear beginning is enough.</h1>
+          <p id="appSubcopy" class="hero-copy">
+            Set the pact, choose the topic, pick a short block, and decide the first reachable step. Then the focus sprint takes over.
+          </p>
+          <div class="button-row">
+            <a class="secondary-button" href="reentry.html">Use the 60-second quick start</a>
+          </div>
+        </section>
+
+        <section class="panel reveal">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">1. Make the block cleaner</p>
+              <h2>The Pact</h2>
+            </div>
+            <span id="supportBadge" class="status-badge">More support</span>
+          </div>
+          <label class="field-label" for="pactInput">What will make this block easier to protect?</label>
+          <textarea id="pactInput" rows="4" placeholder="Phone in another room. No music for the first 15 minutes. One tab only. I begin with the first example before I judge how I feel."></textarea>
+          <div class="chip-row">
+            <button class="chip suggestion-chip" type="button" data-value="Phone stays out of reach.">Phone away</button>
+            <button class="chip suggestion-chip" type="button" data-value="No music during the first focus block.">No music</button>
+            <button class="chip suggestion-chip" type="button" data-value="Only one study tab stays open.">One tab only</button>
+            <button class="chip suggestion-chip" type="button" data-value="I start with the hardest five minutes first.">Hardest five minutes first</button>
+          </div>
+        </section>
+
+        <section class="panel reveal">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">2. Choose the target</p>
+              <h2>Topic and sprint length</h2>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label class="field-label" for="subjectSelect">Subject</label>
+              <select id="subjectSelect">
+                <option value="mathematics">Mathematics</option>
+                <option value="physics">Physics</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="biology">Biology</option>
+                <option value="history">History</option>
+                <option value="literature">Literature</option>
+                <option value="economics">Economics</option>
+                <option value="general">General</option>
+              </select>
+            </div>
+            <div class="field field-wide">
+              <label class="field-label" for="topicInput">Topic</label>
+              <input id="topicInput" type="text" placeholder="Complex Numbers">
+            </div>
+          </div>
+
+          <div class="duration-panel">
+            <div class="duration-copy">
+              <p class="field-label">Sprint length</p>
+              <p class="helper-text">If starting feels hard today, begin with 15 minutes. You can always do another block after.</p>
+            </div>
+            <div class="duration-meter">
+              <input id="durationRange" type="range" min="15" max="60" step="5" value="25">
+              <div class="duration-badge"><span id="durationValue">25</span> min</div>
+            </div>
+          </div>
+
+          <div class="hook-preview-grid">
+            <div id="hookPreviewCard" class="hook-card expanded-hook-card">
+              <p class="eyebrow">Why this might be worth opening</p>
+              <h3 id="hookPreviewTitle">Give the chapter a reason to matter first.</h3>
+              <p id="hookPreviewText">The warm-up turns the topic into something your brain can lean toward before the effort begins.</p>
+            </div>
+            <div class="preview-actions">
+              <a class="secondary-button full-width" id="openHookButton" href="hook.html">Open curiosity warm-up</a>
+              <p class="hand-note hand-note-small">interest first, resistance second</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel reveal">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">3. Lower the first barrier</p>
+              <h2>Pick the first reachable step</h2>
+            </div>
+          </div>
+
+          <div class="task-entry">
+            <input id="taskInput" type="text" placeholder="What's the smallest thing you can start right now?">
+            <button id="addTaskButton" class="primary-button" type="button">Add step</button>
+          </div>
+          <ul id="draftTaskList" class="task-list"></ul>
+
+          <div class="button-row">
+            <button id="startSessionButton" class="primary-button" type="button">Start this focus sprint</button>
+            <button id="resetDraftButton" class="ghost-button" type="button">Clear setup</button>
+          </div>
+        </section>
+      </section>
+
+      <aside class="app-sidebar">
+        <section class="panel reveal">
+          <p class="panel-kicker">Quiet record</p>
+          <div class="metric-grid">
+            <div class="metric-card accent-sage">
+              <span class="metric-value" id="streakValue">0</span>
+              <span class="metric-label">streak</span>
+            </div>
+            <div class="metric-card accent-rose">
+              <span class="metric-value" id="sessionCountValue">0</span>
+              <span class="metric-label">sessions</span>
+            </div>
+          </div>
+          <div class="metric-card xp-card accent-sky">
+            <div class="xp-ring">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="ring-track" cx="60" cy="60" r="46"></circle>
+                <circle id="xpRingProgress" class="ring-progress" cx="60" cy="60" r="46"></circle>
+              </svg>
+              <div class="xp-ring-center">
+                <span class="metric-label">level</span>
+                <strong id="levelValue" class="ring-level">1</strong>
+              </div>
+            </div>
+            <div class="xp-copy">
+              <p class="panel-kicker">Experience</p>
+              <h3 id="xpHeadline">Three focus blocks to level 2.</h3>
+              <p id="xpSubcopy" class="sidebar-copy">Each full 25-minute block adds 100 XP. Every 300 XP lifts you one level.</p>
+              <div class="xp-meta">
+                <span id="xpTotalValue">0 XP</span>
+                <span id="xpRingLabel">0 / 300 XP this level</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel reveal">
+          <p class="panel-kicker">Your arc</p>
+          <h2 id="supportTitle">More support right now</h2>
+          <p id="supportDescription" class="sidebar-copy">
+            Early on, the app gives a little more scaffolding because starting cleanly still needs support.
+          </p>
+          <div id="graduationNote" class="graduation-note">
+            Keep showing up. The app gets quieter as your own momentum gets stronger.
+          </div>
+        </section>
+
+        <section class="panel reveal">
+          <p class="panel-kicker">Recent sessions</p>
+          <ul id="recentSessionsList" class="session-history"></ul>
+        </section>
+      </aside>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: PLANNER                               -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-planner" class="page-view">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand-mark" href="index.html">Pact</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="app.html">Study Space</a>
+        <a href="planner.html">Planner</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="reentry.html">Quick Start</a>
+        <a href="hook.html">Warm-up</a>
+        <a href="session.html">Focus Sprint</a>
+      </nav>
+    </header>
+
+    <main class="planner-layout">
+      <section class="planner-main">
+        <div id="plannerNotice" class="notice-banner" hidden></div>
+
+        <section class="panel planner-hero reveal">
+          <div>
+            <p class="panel-kicker">Daily planner</p>
+            <h1>Build a day you can actually finish.</h1>
+            <p class="hero-copy">
+              Give every task a little shape before it becomes a vague pressure in your head.
+            </p>
+          </div>
+          <div class="planner-date-card">
+            <label class="field-label" for="plannerDateInput">Plan date</label>
+            <input id="plannerDateInput" type="date">
+          </div>
+        </section>
+
+        <section class="planner-stat-grid reveal">
+          <article class="metric-card accent-sage">
+            <span class="metric-label">Tasks</span>
+            <strong class="planner-stat-value" id="plannerTotalTasks">0</strong>
+          </article>
+          <article class="metric-card accent-sky">
+            <span class="metric-label">Done</span>
+            <strong class="planner-stat-value" id="plannerDoneTasks">0</strong>
+          </article>
+          <article class="metric-card accent-rose">
+            <span class="metric-label">Open</span>
+            <strong class="planner-stat-value" id="plannerOpenTasks">0</strong>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Effort left</span>
+            <strong class="planner-stat-value" id="plannerEffortLeft">0</strong>
+          </article>
+        </section>
+
+        <section class="planner-chart-grid reveal">
+          <article class="panel chart-panel">
+            <div class="panel-head compact-head">
+              <div>
+                <p class="panel-kicker">Completion</p>
+                <h2>Done versus open</h2>
+              </div>
+            </div>
+            <div class="donut-row">
+              <div id="plannerCompletionDonut" class="donut-chart"></div>
+              <div id="plannerCompletionLegend" class="chart-legend"></div>
+            </div>
+          </article>
+          <article class="panel chart-panel">
+            <div class="panel-head compact-head">
+              <div>
+                <p class="panel-kicker">Shape of the day</p>
+                <h2>Priority mix</h2>
+              </div>
+            </div>
+            <div class="donut-row">
+              <div id="plannerPriorityDonut" class="donut-chart"></div>
+              <div id="plannerPriorityLegend" class="chart-legend"></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="panel reveal">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Add task</p>
+              <h2>A task with enough metadata to be kind to Future You.</h2>
+            </div>
+          </div>
+          <form id="plannerTaskForm" class="planner-form">
+            <div class="field field-wide">
+              <label class="field-label" for="plannerTitleInput">Task</label>
+              <input id="plannerTitleInput" type="text" maxlength="140" placeholder="Finish physics derivation problems">
+            </div>
+            <div class="planner-meta-grid">
+              <div class="field">
+                <label class="field-label" for="plannerSubjectInput">Subject or project</label>
+                <input id="plannerSubjectInput" type="text" maxlength="48" placeholder="Physics">
+              </div>
+              <div class="field">
+                <label class="field-label" for="plannerPrioritySelect">Priority</label>
+                <select id="plannerPrioritySelect">
+                  <option value="urgent">Urgent</option>
+                  <option value="important" selected>Important</option>
+                  <option value="low">Low</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label" for="plannerEffortSelect">Effort</label>
+                <select id="plannerEffortSelect">
+                  <option value="1">1 - light</option>
+                  <option value="2">2 - steady</option>
+                  <option value="3" selected>3 - deep</option>
+                  <option value="4">4 - heavy</option>
+                  <option value="5">5 - mountain</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label" for="plannerCriteriaInput">Criterion</label>
+                <input id="plannerCriteriaInput" type="text" maxlength="40" placeholder="Revision, exam, admin">
+              </div>
+            </div>
+            <div class="field field-wide">
+              <label class="field-label" for="plannerNotesInput">Notes</label>
+              <textarea id="plannerNotesInput" rows="3" placeholder="What does done look like?"></textarea>
+            </div>
+            <div class="button-row">
+              <button class="primary-button" type="submit">Add to planner</button>
+              <button id="plannerClearDoneButton" class="secondary-button" type="button">Clear completed today</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel reveal">
+          <div class="planner-toolbar">
+            <div class="segmented-control" id="plannerFilterGroup" aria-label="Task filter">
+              <button class="segment-button active" type="button" data-filter="all">All</button>
+              <button class="segment-button" type="button" data-filter="open">Open</button>
+              <button class="segment-button" type="button" data-filter="done">Done</button>
+            </div>
+            <select id="plannerSortSelect" class="compact-select">
+              <option value="priority">Sort by priority</option>
+              <option value="effort">Sort by effort</option>
+              <option value="created">Sort by created</option>
+              <option value="criteria">Sort by criterion</option>
+            </select>
+          </div>
+          <div id="plannerTaskList" class="planner-task-list"></div>
+        </section>
+      </section>
+
+      <aside class="planner-side">
+        <section class="panel reveal">
+          <p class="panel-kicker">Today</p>
+          <h2 id="plannerEncouragementTitle">Name the work clearly.</h2>
+          <p id="plannerEncouragementText" class="sidebar-copy">
+            A clear task has less room to become dread.
+          </p>
+        </section>
+        <section class="panel reveal">
+          <p class="panel-kicker">Quick moves</p>
+          <div class="quick-task-row">
+            <button class="chip quick-task-chip" type="button" data-template="Review one weak concept">Review weak concept</button>
+            <button class="chip quick-task-chip" type="button" data-template="Solve five practice questions">Five practice questions</button>
+            <button class="chip quick-task-chip" type="button" data-template="Summarize today's class notes">Summarize notes</button>
+          </div>
+        </section>
+      </aside>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: DASHBOARD                             -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-dashboard" class="page-view">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand-mark" href="index.html">Pact</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="app.html">Study Space</a>
+        <a href="planner.html">Planner</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="reentry.html">Quick Start</a>
+        <a href="hook.html">Warm-up</a>
+        <a href="session.html">Focus Sprint</a>
+      </nav>
+    </header>
+
+    <main class="dashboard-deep-layout">
+      <section class="dashboard-main">
+        <section class="panel dashboard-hero reveal">
+          <p class="panel-kicker">Dashboard</p>
+          <h1 id="dashboardTitle">Your work, made visible.</h1>
+          <p id="dashboardSubtitle" class="hero-copy">
+            The point is not surveillance. It is evidence that effort is accumulating.
+          </p>
+        </section>
+
+        <section class="planner-stat-grid reveal">
+          <article class="metric-card accent-sage">
+            <span class="metric-label">Done today</span>
+            <strong class="planner-stat-value" id="dashboardDoneToday">0</strong>
+          </article>
+          <article class="metric-card accent-sky">
+            <span class="metric-label">Focus minutes</span>
+            <strong class="planner-stat-value" id="dashboardFocusMinutes">0</strong>
+          </article>
+          <article class="metric-card accent-rose">
+            <span class="metric-label">Sessions</span>
+            <strong class="planner-stat-value" id="dashboardSessionCount">0</strong>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Completion</span>
+            <strong class="planner-stat-value" id="dashboardCompletionRate">0%</strong>
+          </article>
+        </section>
+
+        <section class="dashboard-chart-grid reveal">
+          <article class="panel chart-panel">
+            <div class="panel-head compact-head">
+              <div>
+                <p class="panel-kicker">Tasks</p>
+                <h2>Current task state</h2>
+              </div>
+            </div>
+            <div class="donut-row">
+              <div id="dashboardTaskDonut" class="donut-chart large-donut"></div>
+              <div id="dashboardTaskLegend" class="chart-legend"></div>
+            </div>
+          </article>
+          <article class="panel chart-panel">
+            <div class="panel-head compact-head">
+              <div>
+                <p class="panel-kicker">Energy</p>
+                <h2>Effort distribution</h2>
+              </div>
+            </div>
+            <div class="donut-row">
+              <div id="dashboardEffortDonut" class="donut-chart large-donut"></div>
+              <div id="dashboardEffortLegend" class="chart-legend"></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="panel reveal">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Last seven days</p>
+              <h2>Focus time</h2>
+            </div>
+          </div>
+          <div id="dashboardWeekBars" class="week-bars"></div>
+        </section>
+
+        <section class="dashboard-list-grid reveal">
+          <article class="panel">
+            <p class="panel-kicker">Completed tasks</p>
+            <div id="dashboardCompletedTasks" class="dashboard-list"></div>
+          </article>
+          <article class="panel">
+            <p class="panel-kicker">Recent sessions</p>
+            <div id="dashboardRecentSessions" class="dashboard-list"></div>
+          </article>
+        </section>
+      </section>
+
+      <aside class="planner-side">
+        <section class="panel reveal">
+          <p class="panel-kicker">Quiet encouragement</p>
+          <h2 id="dashboardEncouragementTitle">Start the evidence pile.</h2>
+          <p id="dashboardEncouragementText" class="sidebar-copy">
+            One completed task is enough to make the dashboard start speaking back.
+          </p>
+        </section>
+        <section class="panel reveal">
+          <p class="panel-kicker">Next move</p>
+          <div class="button-row">
+            <a class="primary-button" href="planner.html">Plan the next task</a>
+            <a class="secondary-button" href="app.html">Open study space</a>
+          </div>
+        </section>
+      </aside>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: RE-ENTRY (quick start)                -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-reentry" class="page-view">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand-mark" href="index.html">Pact</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="app.html">Study Space</a>
+        <a href="planner.html">Planner</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="hook.html">Warm-up</a>
+        <a href="session.html">Focus Sprint</a>
+      </nav>
+    </header>
+
+    <main class="reentry-layout">
+      <div id="reentryNotice" class="notice-banner" hidden></div>
+
+      <section id="reentryFormPanel" class="panel reentry-hero reveal">
+        <p class="panel-kicker">60-second re-entry</p>
+        <h1>What is the one thing you have been avoiding opening this week?</h1>
+        <p class="hero-copy">
+          No pact yet. No timer. Just name the closed door and let curiosity get there before resistance does.
+        </p>
+
+        <form id="reentryForm" class="reentry-form">
+          <div class="form-grid">
+            <div class="field">
+              <label class="field-label" for="reentrySubjectSelect">Subject</label>
+              <select id="reentrySubjectSelect">
+                <option value="mathematics">Mathematics</option>
+                <option value="physics">Physics</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="biology">Biology</option>
+                <option value="history">History</option>
+                <option value="literature">Literature</option>
+                <option value="economics">Economics</option>
+                <option value="general">General</option>
+              </select>
+            </div>
+            <div class="field field-wide">
+              <label class="field-label" for="reentryTopicInput">Avoided topic</label>
+              <input id="reentryTopicInput" type="text" placeholder="Complex Numbers">
+            </div>
+          </div>
+          <button class="primary-button" type="submit">Show me something about it first</button>
+        </form>
+      </section>
+
+      <section id="reentryMcqPanel" class="panel mcq-flow-panel reveal" hidden></section>
+
+      <section id="reentryAfterPanel" class="panel reentry-after reveal" hidden>
+        <p class="panel-kicker">Door opened</p>
+        <h2 id="reentryAfterTitle">That is enough to open the door.</h2>
+        <p id="reentryAfterCopy" class="hero-copy"></p>
+        <div class="button-row">
+          <button id="reentryToAppButton" class="primary-button" type="button">Turn this into a focus sprint</button>
+          <button id="reentryHookButton" class="secondary-button" type="button">See the full warm-up</button>
+          <button id="reentryResetButton" class="ghost-button" type="button">Try another topic</button>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: HOOK (curiosity)                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-hook" class="page-view">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand-mark" href="index.html">Pact</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="app.html">Study Space</a>
+        <a href="planner.html">Planner</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="reentry.html">Quick Start</a>
+        <a href="session.html">Focus Sprint</a>
+      </nav>
+    </header>
+
+    <main class="hook-layout">
+      <section class="hook-main">
+        <div id="hookNotice" class="notice-banner" hidden></div>
+
+        <section id="hookMcqPanel" class="panel mcq-flow-panel reveal" hidden></section>
+
+        <section class="panel hook-hero reveal" data-hook-full>
+          <p class="panel-kicker" id="hookTopicLabel">Curiosity warm-up</p>
+          <h1 id="hookTitle">Make the chapter feel worth approaching.</h1>
+          <p class="hook-short" id="hookShortText">Set a topic in the study space and this page will turn it into a stronger invitation.</p>
+          <p class="hero-copy" id="hookLongText">
+            The goal here is not to explain the whole chapter. It is to give the brain something intriguing enough to lean toward before the work begins.
+          </p>
+        </section>
+
+        <section class="hook-info-grid reveal" data-hook-full>
+          <article class="panel accent-sage">
+            <p class="panel-kicker">What makes this beautiful</p>
+            <p id="hookBeautyText">The beautiful part of a topic is usually the moment when scattered facts suddenly become one coherent picture.</p>
+          </article>
+          <article class="panel accent-sky">
+            <p class="panel-kicker">What to watch for today</p>
+            <p id="hookLensText">A good study lens tells the student what to look for while reading or solving, so attention stops feeling random.</p>
+          </article>
+          <article class="panel accent-rose">
+            <p class="panel-kicker">Why this pays off</p>
+            <p id="hookPayoffText">When effort is attached to meaning, memory usually sticks better and starting the next session gets easier too.</p>
+          </article>
+        </section>
+
+        <section class="panel reveal" data-hook-full>
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Visual doorway</p>
+              <h2 id="hookVisualTitle">A simple visual can make the idea feel graspable.</h2>
+            </div>
+          </div>
+          <div id="hookVisualGraphic" class="visual-stage"></div>
+          <p id="hookVisualCaption" class="visual-caption">The visual updates with the chosen topic whenever the app knows how to map it clearly.</p>
+        </section>
+      </section>
+
+      <aside class="hook-side" data-hook-full>
+        <section class="panel reveal">
+          <p class="panel-kicker">What you are about to study</p>
+          <h2 id="hookTopicName">Nothing chosen yet</h2>
+          <p id="hookStateHint" class="sidebar-copy">
+            Go to the study space, choose a subject and topic, then return here.
+          </p>
+          <div class="button-row">
+            <a class="secondary-button" href="app.html">Back to study space</a>
+            <button id="startFromHookButton" class="primary-button" type="button">Start this focus sprint</button>
+          </div>
+        </section>
+
+        <section class="panel reveal">
+          <p class="panel-kicker">How the session will end</p>
+          <p id="hookChallengePreview" class="sidebar-copy">
+            The end-of-session retrieval question will appear here once the app knows the topic.
+          </p>
+          <p class="hand-note hand-note-small">begin with interest, end with proof</p>
+        </section>
+      </aside>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: SESSION (focus)                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-session" class="page-view">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand-mark" href="index.html">Pact</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="app.html">Study Space</a>
+        <a href="planner.html">Planner</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="reentry.html">Quick Start</a>
+        <a href="hook.html">Warm-up</a>
+      </nav>
+    </header>
+
+    <main class="session-layout">
+      <section class="session-main">
+        <div id="sessionNotice" class="notice-banner" hidden></div>
+
+        <section id="sessionEmptyState" class="panel reveal" hidden>
+          <p class="panel-kicker">No focus sprint yet</p>
+          <h1>Set up the next block first.</h1>
+          <p class="hero-copy">
+            The focus sprint becomes available once the pact, topic, sprint length, and first steps are ready.
+          </p>
+          <div class="button-row">
+            <a class="primary-button" href="app.html">Set up a focus sprint</a>
+            <a class="secondary-button" href="hook.html">Open curiosity warm-up</a>
+          </div>
+        </section>
+
+        <section id="sessionLivePanel" class="panel reveal" hidden>
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker" id="sessionSubjectLabel">Focus sprint</p>
+              <h1 id="sessionTopicTitle">Current topic</h1>
+              <p id="sessionHookReminder" class="hero-copy">
+                The warm-up stays here as a quiet anchor while you work.
+              </p>
+            </div>
+            <div class="session-timer-card">
+              <div class="timer-dial">
+                <svg viewBox="0 0 220 220" aria-hidden="true">
+                  <circle class="timer-dial-track" cx="110" cy="110" r="88"></circle>
+                  <circle id="sessionDialProgress" class="timer-dial-progress" cx="110" cy="110" r="88"></circle>
+                </svg>
+                <div class="timer-dial-center">
+                  <span class="session-timer-label">remaining</span>
+                  <strong id="remainingTimer">25:00</strong>
+                  <small id="elapsedTimer">elapsed 00:00</small>
+                </div>
+              </div>
+              <div class="session-progress-meta">
+                <span id="sessionDurationText">25 minute block</span>
+                <span id="nextCheckInText">Next check-in in 15:00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="session-overview">
+            <div class="overview-item">
+              <span class="meta-label">Check-ins</span>
+              <strong id="checkInCount">0</strong>
+            </div>
+            <div class="overview-item">
+              <span class="meta-label">What to hold onto</span>
+              <strong id="liveSupportLabel">Curiosity hook</strong>
+            </div>
+            <div class="overview-item">
+              <span class="meta-label">Today's pact</span>
+              <strong id="sessionPactSummary">-</strong>
+            </div>
+          </div>
+
+          <div class="hook-card live-hook-card">
+            <p id="liveSupportText">When the session starts, the hook and later responses will live here.</p>
+          </div>
+
+          <div class="panel subtle-panel">
+            <div class="panel-head compact-head">
+              <div>
+                <p class="panel-kicker">What you can do next</p>
+                <h3>Keep the next step reachable</h3>
+              </div>
+            </div>
+            <ul id="liveTaskList" class="task-list compact-list"></ul>
+          </div>
+
+          <div id="checkInPrompt" class="checkin-card" hidden>
+            <p class="eyebrow">State check-in</p>
+            <h3>How is your attention right now?</h3>
+            <p class="helper-text">1 is flat and resistant. 10 is absorbed and steady.</p>
+            <div id="ratingGrid" class="rating-grid"></div>
+          </div>
+
+          <div id="thermostatCard" class="thermostat-card" hidden>
+            <p id="thermostatLabel" class="eyebrow">Thermostat response</p>
+            <h3 id="thermostatTitle">A small spark</h3>
+            <p id="thermostatMessage"></p>
+          </div>
+
+          <div class="button-row">
+            <button id="manualCheckInButton" class="secondary-button" type="button">Check your state</button>
+            <button id="endSessionButton" class="primary-button" type="button">Finish focus sprint</button>
+          </div>
+        </section>
+
+        <section id="wrapPanel" class="panel reveal" hidden>
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Close the loop</p>
+              <h2>Retrieval and reflection</h2>
+            </div>
+          </div>
+
+          <div class="wrap-question">
+            <p class="field-label">Challenge question</p>
+            <p id="challengeQuestion" class="challenge-copy"></p>
+          </div>
+
+          <label class="field-label" for="answerInput">What can you retrieve now?</label>
+          <textarea id="answerInput" rows="5" placeholder="Write the strongest answer you can before revealing the guidance."></textarea>
+
+          <div class="button-row">
+            <button id="revealCuesButton" class="secondary-button" type="button">Reveal what a strong answer should touch</button>
+          </div>
+
+          <div id="answerCuesCard" class="answer-cues" hidden>
+            <p class="eyebrow">Strong answers usually include</p>
+            <p id="answerCuesText"></p>
+          </div>
+
+          <label class="field-label" for="reflectionInput">What surprised you today?</label>
+          <textarea id="reflectionInput" rows="3" placeholder="One sentence is enough."></textarea>
+
+          <div class="button-row">
+            <button id="saveSessionButton" class="primary-button" type="button">Save this session</button>
+            <a class="ghost-button" href="app.html">Back to study space</a>
+          </div>
+        </section>
+      </section>
+
+      <aside class="session-side">
+        <section class="panel reveal">
+          <p class="panel-kicker">During the block</p>
+          <h2>Stay with the next honest step.</h2>
+          <p class="sidebar-copy">
+            The focus sprint is intentionally quieter than the study space. The warm-up has already done its job. Now the work gets room.
+          </p>
+          <p class="hand-note hand-note-small">reward the effort, not just the finish</p>
+        </section>
+      </aside>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<script src="./script.js"></script>
+<script src="./ai.js"></script>
+</body>
+</html>
