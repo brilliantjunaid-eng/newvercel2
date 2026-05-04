@@ -20,13 +20,13 @@ function pageToHref(pageName) {
 }
 
 function pageFromHref(href) {
-  if (!href) return null;
-  var hashMatch = href.match(/^(?:\.\/)?(?:pact\.html)?#([a-z0-9-]+)$/i);
-  if (hashMatch) return normalizePageName(hashMatch[1]);
-  var fileMatch = href.match(/^(?:\.\/)?(index|login|app|planner|dashboard|reentry|hook|session)\.html(?:#.*)?$/i);
-  if (!fileMatch) return null;
-  return normalizePageName(fileMatch[1]);
-}
+    if (!href) return null;
+    var hashMatch = href.match(/^(?:\.\/)?(?:pact\.html)?#([a-z0-9-]+)$/i);
+    if (hashMatch) return normalizePageName(hashMatch[1]);
+    var fileMatch = href.match(/^(?:\.\/)?(login|app|planner|dashboard|reentry|hook|session)\.html(?:#.*)?$/i);
+    if (!fileMatch) return null;
+    return normalizePageName(fileMatch[1]);
+  }
 
 function getPageFromLocation() {
   var rawHash = (window.location.hash || "").replace(/^#/, "").trim();
