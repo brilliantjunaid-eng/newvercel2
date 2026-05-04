@@ -16,7 +16,7 @@ function pageToHash(pageName) {
 
 function pageToHref(pageName) {
   pageName = normalizePageName(pageName);
-  return pageName === "home" ? "index.html" : pageName + ".html";
+  return pageName === "home" ? "#home" : pageName + ".html";
 }
 
 function pageFromHref(href) {
